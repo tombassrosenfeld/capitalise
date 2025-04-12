@@ -1,0 +1,24 @@
+{
+    "error": false,
+    "msg": "countries and capitals retrieved",
+    "data": [
+        {
+            "name": "Afghanistan",
+            "capital": "Kabul",
+            "iso2": "AF",
+            "iso3": "AFG"
+        },
+        {
+            "name": "Aland Islands",
+            "capital": "Mariehamn",
+            "iso2": "AX",
+            "iso3": "ALA"
+        },
+        {
+            "name": "Albania",
+            "capital": "Tirana",
+            "iso2": "AL",
+            "iso3": "ALB"
+        }
+    ]
+}

@@ -35,4 +35,9 @@ return [
         ],
     ],
 
+    'capital_cities_data' => [
+        'api_url' => 'https://countriesnow.space/api/v0.1/countries/capital',
+        // auth credentials to be imported here from the .env
+    ]
+
 ];
