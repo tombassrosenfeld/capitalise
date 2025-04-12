@@ -46,4 +46,30 @@ class CapitalCitiesDataTest extends TestCase
         // We want to ensure that the correct capital is contained within the city options
         $this->assertContains($countryData->capital, $result['cities']);
     }
+
+    public function test_checkAnswers_returnsTrueForACorrectAnswer()
+    {
+        $countriesResponse = json_decode(file_get_contents(__DIR__ . '/TestData/CountryDataFullResponse.json'));
+
+        Http::fake([
+            'https://countriesnow.space/api/v0.1/countries/capital' => Http::response((array)$countriesResponse, 200)
+        ]);
+
+        $result = (new CapitalCitiesData)->checkAnswer("Vietnam", "Hanoi");
+
+        $this->assertTrue($result);
+    }
+
+    public function test_checkAnswers_returnsFalseForAnIncorrectAnswer()
+    {
+        $countriesResponse = json_decode(file_get_contents(__DIR__ . '/TestData/CountryDataFullResponse.json'));
+
+        Http::fake([
+            'https://countriesnow.space/api/v0.1/countries/capital' => Http::response((array)$countriesResponse, 200)
+        ]);
+
+        $result = (new CapitalCitiesData)->checkAnswer("United Kingdom", "Bristol");
+
+        $this->assertFalse($result);
+    }
 }

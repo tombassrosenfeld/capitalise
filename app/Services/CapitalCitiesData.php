@@ -12,7 +12,7 @@ class CapitalCitiesData
 {
     public function getOptions(): array
     {
-        $options = $this->makeRequest()?->random(3);
+        $options = $this->getCountriesData()->random(3);
 
         return [
             'country' => $options->random()->name,
@@ -20,14 +20,19 @@ class CapitalCitiesData
         ];
     }
 
-    private function makeRequest(): Collection
+    public function checkAnswer(string $country, string $city): bool
+    {
+        $countryData = $this->getCountriesData()->firstWhere('name', $country);
+        return $countryData->capital === $city;
+    }
+
+    private function getCountriesData(): Collection
     {
         try {
             $response = Http::get(config('services.capital_cities_data.api_url'))->throw();
         } catch (HttpClientException $e) {
-            throw new CapitalCitiesDataHttpException();
+            throw new CapitalCitiesDataHttpException($e->getMessage(), $e->getCode());
         }
         return collect(json_decode($response->body())->data);
     }
-
 }

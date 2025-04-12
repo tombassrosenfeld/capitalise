@@ -4,8 +4,8 @@ namespace App\Exceptions;
 
 class CapitalCitiesDataHttpException extends \Exception
 {
-    public function __construct()
+    public function __construct($message, $code = 0)
     {
-        parent::__construct("The third party capital cities API is returning an error.");
+        parent::__construct("The capital cities endpoint returned the following error: {$message}", $code);
     }
 }
