@@ -20,10 +20,13 @@ class CapitalCitiesData
         ];
     }
 
-    public function checkAnswer(string $country, string $city): bool
+    public function getCountryData(string $country): array
     {
         $countryData = $this->getCountriesData()->firstWhere('name', $country);
-        return $countryData->capital === $city;
+        return [
+            'name' => $countryData->name,
+            'capital' => $countryData->capital,
+        ];
     }
 
     private function getCountriesData(): Collection

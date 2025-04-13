@@ -47,7 +47,7 @@ class CapitalCitiesDataTest extends TestCase
         $this->assertContains($countryData->capital, $result['cities']);
     }
 
-    public function test_checkAnswers_returnsTrueForACorrectAnswer()
+    public function test_getCountryData_returnsTheCorrectDataForVietnam()
     {
         $countriesResponse = json_decode(file_get_contents(__DIR__ . '/TestData/CountryDataFullResponse.json'));
 
@@ -55,12 +55,18 @@ class CapitalCitiesDataTest extends TestCase
             'https://countriesnow.space/api/v0.1/countries/capital' => Http::response((array)$countriesResponse, 200)
         ]);
 
-        $result = (new CapitalCitiesData)->checkAnswer("Vietnam", "Hanoi");
+        $result = (new CapitalCitiesData)->getCountryData("Vietnam");
 
-        $this->assertTrue($result);
+        $this->assertEquals(
+            [
+                "name" => "Vietnam",
+                "capital" => "Hanoi",
+            ],
+            $result
+        );
     }
 
-    public function test_checkAnswers_returnsFalseForAnIncorrectAnswer()
+    public function test_getCountryData_returnsTheCorrectDataForUK()
     {
         $countriesResponse = json_decode(file_get_contents(__DIR__ . '/TestData/CountryDataFullResponse.json'));
 
@@ -68,8 +74,14 @@ class CapitalCitiesDataTest extends TestCase
             'https://countriesnow.space/api/v0.1/countries/capital' => Http::response((array)$countriesResponse, 200)
         ]);
 
-        $result = (new CapitalCitiesData)->checkAnswer("United Kingdom", "Bristol");
+        $result = (new CapitalCitiesData)->getCountryData("United Kingdom");
 
-        $this->assertFalse($result);
+        $this->assertEquals(
+            [
+                "name" => "United Kingdom",
+                "capital" => "London",
+            ],
+            $result
+        );
     }
 }
