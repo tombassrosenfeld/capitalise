@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Unit;
+namespace Tests\Unit\CountriesData;
 
 use App\Services\CountriesData;
 use Illuminate\Support\Facades\Http;
@@ -17,7 +17,7 @@ class CountriesDataTest extends TestCase
         $countriesResponse = json_decode(file_get_contents(__DIR__ . '/TestData/CountryDataLimitedResponse.json'));
 
         Http::fake([
-            'https://countriesnow.space/api/v0.1/countries/capital' => Http::response((array)$countriesResponse, 200)
+            'https://countriesnow.space/api/v0.1/countries/capital' => Http::response((array)$countriesResponse)
         ]);
 
         $result = (new CountriesData)->getOptions();
@@ -26,7 +26,7 @@ class CountriesDataTest extends TestCase
 
         // As this is random, we need to check that the country is one of the possible options
         $this->assertContains($result['country'], $possibleCountries);
-        // The test data is limited to these three options so we know they should be in here
+        // The test data is limited to these three options, so we know they should be in here
         $this->assertEquals(collect(["Kabul", "Mariehamn", "Tirana",]), $result['cities']);
     }
 
@@ -35,7 +35,7 @@ class CountriesDataTest extends TestCase
         $countriesResponse = json_decode(file_get_contents(__DIR__ . '/TestData/CountryDataFullResponse.json'));
 
         Http::fake([
-            'https://countriesnow.space/api/v0.1/countries/capital' => Http::response((array)$countriesResponse, 200)
+            'https://countriesnow.space/api/v0.1/countries/capital' => Http::response((array)$countriesResponse)
         ]);
 
         $result = (new CountriesData)->getOptions();
@@ -52,7 +52,7 @@ class CountriesDataTest extends TestCase
         $countriesResponse = json_decode(file_get_contents(__DIR__ . '/TestData/CountryDataFullResponse.json'));
 
         Http::fake([
-            'https://countriesnow.space/api/v0.1/countries/capital' => Http::response((array)$countriesResponse, 200)
+            'https://countriesnow.space/api/v0.1/countries/capital' => Http::response((array)$countriesResponse)
         ]);
 
         $result = (new CountriesData)->getCountryData("Vietnam");
@@ -71,7 +71,7 @@ class CountriesDataTest extends TestCase
         $countriesResponse = json_decode(file_get_contents(__DIR__ . '/TestData/CountryDataFullResponse.json'));
 
         Http::fake([
-            'https://countriesnow.space/api/v0.1/countries/capital' => Http::response((array)$countriesResponse, 200)
+            'https://countriesnow.space/api/v0.1/countries/capital' => Http::response((array)$countriesResponse)
         ]);
 
         $result = (new CountriesData)->getCountryData("United Kingdom");

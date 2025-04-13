@@ -2,7 +2,7 @@
 
 namespace App\Services;
 
-use Illuminate\Http\Client\HttpClientException;
+use Illuminate\Http\Client\RequestException;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Collection;
 
@@ -10,9 +10,15 @@ class CountriesData
 {
     public function getOptions(): array
     {
+        $countriesData = $this->getCountriesData();
+
+        if ($countriesData->count() < 3) {
+            return [];
+        }
+
         $options = $this->getCountriesData()->random(3);
 
-        return $options->isEmpty() ? [] : [
+        return [
             'country' => $options->random()->name,
             'cities' => $options->pluck('capital'),
         ];
@@ -31,13 +37,11 @@ class CountriesData
 
     private function getCountriesData(): Collection
     {
-        try {
-            $response = Http::get(config('services.capital_cities_data.api_url'))->throw();
-        } catch (HttpClientException $e) {
-            report($e);
-            return collect();
-        }
+        $response = Http::get(config('services.capital_cities_data.api_url'));
 
-        return collect(json_decode($response->body())->data);
+        // We don't want to throw this exception here but should log it.
+        $response->onError(fn (RequestException $e) => report($e));
+
+        return $response->ok() ? collect(json_decode($response->body())->data) : collect();
     }
 }
