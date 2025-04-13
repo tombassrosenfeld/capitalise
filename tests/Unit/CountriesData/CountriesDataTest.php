@@ -2,11 +2,11 @@
 
 namespace Tests\Unit;
 
-use App\Services\CapitalCitiesData;
+use App\Services\CountriesData;
 use Illuminate\Support\Facades\Http;
 use Tests\TestCase;
 
-class CapitalCitiesDataTest extends TestCase
+class CountriesDataTest extends TestCase
 {
     /**
      * @group capitalCitiesData
@@ -20,7 +20,7 @@ class CapitalCitiesDataTest extends TestCase
             'https://countriesnow.space/api/v0.1/countries/capital' => Http::response((array)$countriesResponse, 200)
         ]);
 
-        $result = (new CapitalCitiesData)->getOptions();
+        $result = (new CountriesData)->getOptions();
 
         $possibleCountries = collect($countriesResponse->data)->pluck('name');
 
@@ -38,7 +38,7 @@ class CapitalCitiesDataTest extends TestCase
             'https://countriesnow.space/api/v0.1/countries/capital' => Http::response((array)$countriesResponse, 200)
         ]);
 
-        $result = (new CapitalCitiesData)->getOptions();
+        $result = (new CountriesData)->getOptions();
 
         $countryData = collect($countriesResponse->data)
             ->firstWhere('name', $result['country']);
@@ -55,7 +55,7 @@ class CapitalCitiesDataTest extends TestCase
             'https://countriesnow.space/api/v0.1/countries/capital' => Http::response((array)$countriesResponse, 200)
         ]);
 
-        $result = (new CapitalCitiesData)->getCountryData("Vietnam");
+        $result = (new CountriesData)->getCountryData("Vietnam");
 
         $this->assertEquals(
             [
@@ -74,7 +74,7 @@ class CapitalCitiesDataTest extends TestCase
             'https://countriesnow.space/api/v0.1/countries/capital' => Http::response((array)$countriesResponse, 200)
         ]);
 
-        $result = (new CapitalCitiesData)->getCountryData("United Kingdom");
+        $result = (new CountriesData)->getCountryData("United Kingdom");
 
         $this->assertEquals(
             [
