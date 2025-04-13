@@ -60,7 +60,7 @@ class CountriesDataTest extends TestCase
 
         $this->assertEquals(
             [
-                "name" => "Vietnam",
+                "country" => "Vietnam",
                 "capital" => "Hanoi",
             ],
             $result
@@ -79,7 +79,7 @@ class CountriesDataTest extends TestCase
 
         $this->assertEquals(
             [
-                "name" => "United Kingdom",
+                "country" => "United Kingdom",
                 "capital" => "London",
             ],
             $result

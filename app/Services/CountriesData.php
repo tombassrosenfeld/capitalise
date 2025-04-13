@@ -29,7 +29,7 @@ class CountriesData
 
         return empty($countryData) ? []
             : [
-                'name' => $countryData->name,
+                'country' => $countryData->name,
                 'capital' => $countryData->capital,
             ];
     }

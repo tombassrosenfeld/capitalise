@@ -28,7 +28,7 @@ class CapitalQuizControllerTest extends TestCase
         $this->assertContains($response->country, $possibleCountries);
 
         // The test data has only three options, so we know they should all be here
-        $this->assertEquals(["Algiers", "Andorra la Vella","Luanda"], $response->cities);
+        $this->assertEquals(['Algiers', 'Andorra la Vella', 'Luanda'], $response->cities);
     }
 
     public function test_getOptionsRoute_returnsTheExpectedResponseOnError()
@@ -44,5 +44,59 @@ class CapitalQuizControllerTest extends TestCase
 
         $response->assertStatus(500);
         $response->assertJson(["message" => 'Failed to fetch countries data']);
+    }
+
+    public function test_checkAnswerRoute_withCorrectAnswer_returnsExpectedResponse()
+    {
+        $countriesResponse = json_decode(file_get_contents(__DIR__ . '/TestData/CountryDataLimitedResponse.json'));
+
+        Http::fake([
+            'https://countriesnow.space/api/v0.1/countries/capital' => Http::response((array)$countriesResponse),
+        ]);
+
+        $user = User::factory()->make();
+
+        $response = $this->actingAs($user)
+            ->post(
+                '/api/capital-quiz/answer',
+                ['country' => 'Angola', 'capital' => 'Luanda']
+            );
+
+        $response->assertStatus(200);
+        $this->assertEquals(
+            [
+                'correct' => true,
+                'country' => 'Angola',
+                'capital' => 'Luanda'
+            ],
+            $response->json()
+        );
+    }
+
+    public function test_checkAnswerRoute_withWrongAnswer_returnsExpectedResponse()
+    {
+        $countriesResponse = json_decode(file_get_contents(__DIR__ . '/TestData/CountryDataLimitedResponse.json'));
+
+        Http::fake([
+            'https://countriesnow.space/api/v0.1/countries/capital' => Http::response((array)$countriesResponse),
+        ]);
+
+        $user = User::factory()->make();
+
+        $response = $this->actingAs($user)
+            ->post(
+                '/api/capital-quiz/answer',
+                ['country' => 'Angola', 'capital' => 'Not Luanda']
+            );
+
+        $response->assertStatus(200);
+        $this->assertEquals(
+            [
+                'correct' => false,
+                'country' => 'Angola',
+                'capital' => 'Luanda'
+            ],
+            $response->json()
+        );
     }
 }
