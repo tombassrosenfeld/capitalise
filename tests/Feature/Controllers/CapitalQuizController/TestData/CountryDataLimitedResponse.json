@@ -1,0 +1,24 @@
+{
+    "error": false,
+    "msg": "countries and capitals retrieved",
+    "data": [
+        {
+            "name": "Algeria",
+            "capital": "Algiers",
+            "iso2": "DZ",
+            "iso3": "DZA"
+        },
+        {
+            "name": "Andorra",
+            "capital": "Andorra la Vella",
+            "iso2": "AD",
+            "iso3": "AND"
+        },
+        {
+            "name": "Angola",
+            "capital": "Luanda",
+            "iso2": "AO",
+            "iso3": "AGO"
+        }
+    ]
+}

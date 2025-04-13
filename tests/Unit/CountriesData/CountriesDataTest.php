@@ -26,6 +26,7 @@ class CountriesDataTest extends TestCase
 
         // As this is random, we need to check that the country is one of the possible options
         $this->assertContains($result['country'], $possibleCountries);
+
         // The test data is limited to these three options, so we know they should be in here
         $this->assertEquals(collect(["Kabul", "Mariehamn", "Tirana",]), $result['cities']);
     }
