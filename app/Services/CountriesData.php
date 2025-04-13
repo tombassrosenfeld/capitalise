@@ -2,7 +2,6 @@
 
 namespace App\Services;
 
-use Illuminate\Http\Client\RequestException;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Collection;
 
@@ -40,7 +39,7 @@ class CountriesData
         $response = Http::get(config('services.capital_cities_data.api_url'));
 
         // We don't want to throw this exception here but should log it.
-        $response->onError(fn (RequestException $e) => report($e));
+        $response->onError(fn () => report($response->toException()));
 
         return $response->ok() ? collect(json_decode($response->body())->data) : collect();
     }
