@@ -27,8 +27,7 @@ class CapitalQuizController extends Controller
 
     public function checkAnswer(PostCapitalQuizAnswerRequest $request, CountriesData $countriesData): JsonResponse
     {
-        $country = $request->validated('country');
-        $capital = $request->validated('capital');
+        ['country' => $country, 'capital' => $capital] = $request->validated();
 
         $countryData = $countriesData->getCountryData($country);
 
