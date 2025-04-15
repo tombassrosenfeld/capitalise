@@ -12,12 +12,12 @@ export const Home: FC = () => {
     const [loading, setLoading] = useState(false);
     const [selectedCapital, setSelectedCapital] = useState<string | null>(null);
     const [result, setResult] = useState<IQuizResult | null>(null);
-
+    const [streakCount, setStreakCount] = useState<number>(0);
     const { country } = quizData ?? {};
 
     const handleFetchQuizData = async () => {
         setLoading(true);
-        setSelectedCapital(null)
+        setSelectedCapital(null);
         const newQuizData = await getQuizDataRequest();
 
         setQuizData(newQuizData ?? null);
@@ -29,6 +29,7 @@ export const Home: FC = () => {
         setLoading(true);
         if (country && selectedCapital) {
             const result = await postQuizAnswer({ country, capital: selectedCapital });
+            setStreakCount((currentCount) => result.correct ? currentCount + 1 : 0);
             setResult(result);
         }
         setLoading(false);
@@ -48,17 +49,21 @@ export const Home: FC = () => {
                 }
                 {
                     quizData && (
-                        <Quiz
-                            quizData={quizData}
-                            selectedCapital={selectedCapital}
-                            setSelectedCapital={setSelectedCapital}
-                            submitAnswer={handleSubmitAnswer}
-                            fetchQuiz={handleFetchQuizData}
-                            loading={loading}
-                            result={result}
-                        />
+                        <>
+                            <Quiz
+                                quizData={quizData}
+                                selectedCapital={selectedCapital}
+                                setSelectedCapital={setSelectedCapital}
+                                submitAnswer={handleSubmitAnswer}
+                                fetchQuiz={handleFetchQuizData}
+                                loading={loading}
+                                result={result}
+                            />
+                            <p>Current streak: {streakCount}</p>
+                        </>
                     )
                 }
+
             </main>
         </>
     );
