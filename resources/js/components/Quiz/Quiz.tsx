@@ -1,6 +1,6 @@
 import React, { type FC, useMemo } from 'react';
 import { type IQuizPropTypes } from '@/components/Quiz/Quiz.types';
-import { Button, FormControlLabel, FormGroup, Radio, RadioGroup } from '@mui/material';
+import { Button, FormControlLabel, Radio, RadioGroup } from '@mui/material';
 
 import styles from './Quiz.module.css';
 
@@ -33,7 +33,6 @@ export const Quiz: FC<IQuizPropTypes> = (
 
     return (
         <>
-
             <p>What city is the capital of {country}?</p>
             <RadioGroup
                 aria-required={true}
@@ -41,22 +40,18 @@ export const Quiz: FC<IQuizPropTypes> = (
                 onChange={(_, value) => setSelectedCapital(value)}
             >
                 {
-                    cities && cities.map((city, index) => {
-                        const renderedCity = city ? city : 'No capital city';
-                        return (
-                            <FormControlLabel
-                                // This key composition catches the case that we end up with multiple
-                                // empty cities and prevents key duplication.
-                                // Not ideal and if this happens frequently, a backend solution will be needed
-                                key={`${renderedCity}-${index}`}
-                                value={city}
-                                control={<Radio className={styles.radio} />}
-                                label={renderedCity}
-                                disabled={!!result}
-
-                            />
-                        );
-                    })
+                    cities && cities.map((city, index) => (
+                        <FormControlLabel
+                            // This key composition catches the case that we end up with multiple
+                            // empty cities and prevents key duplication.
+                            // Not ideal and if this happens frequently, a backend solution will be needed
+                            key={`${city}-${index}`}
+                            value={city}
+                            control={<Radio className={styles.radio} />}
+                            label={city}
+                            disabled={!!result}
+                        />
+                    ))
                 }
             </RadioGroup>
             <div
@@ -72,7 +67,6 @@ export const Quiz: FC<IQuizPropTypes> = (
                     variant="contained"
                     color="primary"
                     onClick={fetchQuiz}
-                    disabled={!selectedCapital}
                     loading={loading}
                 >Next Question</Button>
             ) : (
