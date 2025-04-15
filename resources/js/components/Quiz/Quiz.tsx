@@ -1,6 +1,6 @@
 import React, { type FC, useMemo } from 'react';
 import { type IQuizPropTypes } from '@/components/Quiz/Quiz.types';
-import { Button, FormControlLabel, Radio, RadioGroup } from '@mui/material';
+import { Button, FormControlLabel, Radio, RadioGroup, Typography } from '@mui/material';
 
 import styles from './Quiz.module.css';
 import { type TCity } from '@/types/quiz';
@@ -34,7 +34,7 @@ export const Quiz: FC<IQuizPropTypes> = (
 
     return (
         <>
-            <p>What city is the capital of {country}?</p>
+            <Typography component="p">What city is the capital of {country}?</Typography>
             <RadioGroup
                 aria-required={true}
                 className={styles.radioGroup}
@@ -59,7 +59,7 @@ export const Quiz: FC<IQuizPropTypes> = (
                 className={styles.messageWrapper}
                 aria-live="assertive"
             >
-                <p>{resultMessage}</p>
+                <Typography component="p">{resultMessage}</Typography>
             </div>
             {/* switch out the buttons based on the lifecycle of the quiz - we don't want to submit again.*/}
             {result ? (
