@@ -5,8 +5,11 @@ namespace App\Services;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Collection;
 
+
 class CountriesData
 {
+    private const NO_CAPITAL_CITY = 'No capital city';
+
     public function getOptions(): array
     {
         $countriesData = $this->getCountriesData();
@@ -16,10 +19,12 @@ class CountriesData
         }
 
         $options = $this->getCountriesData()->random(3);
+        $cities = $options->pluck('capital')
+            ->map(fn ($capital) => $capital ?: self::NO_CAPITAL_CITY);
 
         return [
             'country' => $options->random()->name,
-            'cities' => $options->pluck('capital'),
+            'cities' => $cities,
         ];
     }
 
@@ -30,7 +35,7 @@ class CountriesData
         return empty($countryData) ? []
             : [
                 'country' => $countryData->name,
-                'capital' => $countryData->capital,
+                'capital' => $countryData->capital ?: self::NO_CAPITAL_CITY,
             ];
     }
 

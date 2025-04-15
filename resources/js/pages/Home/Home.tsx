@@ -5,22 +5,25 @@ import styles from './Home.module.css';
 import { getQuizDataRequest, IQuizData, IQuizResult, postQuizAnswer } from '@/apiConsumers/countriesQuiz';
 import { Welcome } from '@/components/Welcome/Welcome';
 import { Quiz } from '@/components/Quiz/Quiz';
+import { Typography } from '@mui/material';
 
 export const Home: FC = () => {
-
     const [quizData, setQuizData] = useState<IQuizData | null>(null);
     const [loading, setLoading] = useState(false);
     const [selectedCapital, setSelectedCapital] = useState<string | null>(null);
     const [result, setResult] = useState<IQuizResult | null>(null);
     const [streakCount, setStreakCount] = useState<number>(0);
     const { country } = quizData ?? {};
+    const [apiError, setApiError] = useState(false);
 
     const handleFetchQuizData = async () => {
         setLoading(true);
-        setSelectedCapital(null);
-        const newQuizData = await getQuizDataRequest();
 
+        const { data: newQuizData, errors } = await getQuizDataRequest();
+
+        setApiError(errors);
         setQuizData(newQuizData ?? null);
+        setSelectedCapital(null);
         setResult(null);
         setLoading(false);
     };
@@ -28,9 +31,11 @@ export const Home: FC = () => {
     const handleSubmitAnswer = async () => {
         setLoading(true);
         if (country && selectedCapital) {
-            const result = await postQuizAnswer({ country, capital: selectedCapital });
-            setStreakCount((currentCount) => result.correct ? currentCount + 1 : 0);
+            const { data: result, errors } = await postQuizAnswer({ country, capital: selectedCapital });
+
+            setStreakCount((currentCount) => result?.correct ? currentCount + 1 : 0);
             setResult(result);
+            setApiError(errors);
         }
         setLoading(false);
     };
@@ -59,11 +64,19 @@ export const Home: FC = () => {
                                 loading={loading}
                                 result={result}
                             />
-                            <p>Current streak: {streakCount}</p>
+                            <Typography className={styles.streakCount} component="p">Current streak: {streakCount}</Typography>
                         </>
                     )
                 }
-
+                <div aria-live="assertive" className={styles.errorContainer}>
+                    <Typography variant="body1" component="p">
+                        {
+                            apiError && (
+                                "We're having a bit of trouble with our server. Please try again."
+                            )
+                        }
+                    </Typography>
+                </div>
             </main>
         </>
     );

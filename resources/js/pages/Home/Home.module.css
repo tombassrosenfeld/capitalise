@@ -3,3 +3,11 @@
 .content {
     padding: 0.5rem 1rem;
 }
+
+.errorContainer {
+    padding: 1rem 0;
+}
+
+.streakCount {
+    padding-top: 0.5rem;
+}
