@@ -20,8 +20,7 @@ class CapitalQuizControllerTest extends TestCase
         $user = User::factory()->make();
 
         $response = json_decode($this->actingAs($user)
-            ->get('/api/capital-quiz/options')->getContent());
-
+            ->get('/api/capital-quiz/')->getContent());
         $possibleCountries = collect($countriesResponse->data)->pluck('name');
 
         // This logic replicates that of the CountriesDataTest
@@ -40,7 +39,7 @@ class CapitalQuizControllerTest extends TestCase
         $user = User::factory()->make();
 
         $response = $this->actingAs($user)
-            ->get('/api/capital-quiz/options');
+            ->get('/api/capital-quiz/');
 
         $response->assertStatus(500);
         $response->assertJson(["message" => 'Failed to fetch countries data']);
