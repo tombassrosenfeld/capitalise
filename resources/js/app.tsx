@@ -3,7 +3,6 @@ import '../css/app.css';
 import { createInertiaApp } from '@inertiajs/react';
 import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
 import { createRoot } from 'react-dom/client';
-import { initializeTheme } from './hooks/use-appearance';
 
 const appName = 'Capitalise';
 
@@ -20,5 +19,5 @@ createInertiaApp({
     },
 });
 
-// This will set light / dark mode on load...
-initializeTheme();
+// Horrible hack for the sake of removing dark mode. And I'm sorry.
+document.documentElement.classList.toggle('dark', false);
