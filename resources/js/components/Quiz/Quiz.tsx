@@ -1,6 +1,6 @@
 import React, { type FC, useMemo } from 'react';
 import { type IQuizPropTypes } from '@/components/Quiz/Quiz.types';
-import { Button, FormControlLabel, Radio, RadioGroup } from '@mui/material';
+import { Button, FormControlLabel, FormGroup, Radio, RadioGroup } from '@mui/material';
 
 import styles from './Quiz.module.css';
 
@@ -33,8 +33,10 @@ export const Quiz: FC<IQuizPropTypes> = (
 
     return (
         <>
+
             <p>What city is the capital of {country}?</p>
             <RadioGroup
+                aria-required={true}
                 className={styles.radioGroup}
                 onChange={(_, value) => setSelectedCapital(value)}
             >
@@ -47,7 +49,7 @@ export const Quiz: FC<IQuizPropTypes> = (
                                 // empty cities and prevents key duplication.
                                 // Not ideal and if this happens frequently, a backend solution will be needed
                                 key={`${renderedCity}-${index}`}
-                                value={renderedCity}
+                                value={city}
                                 control={<Radio className={styles.radio} />}
                                 label={renderedCity}
                                 disabled={!!result}
@@ -61,7 +63,7 @@ export const Quiz: FC<IQuizPropTypes> = (
                 className={styles.messageWrapper}
                 aria-live="assertive"
             >
-                {resultMessage}
+                <p>{resultMessage}</p>
             </div>
             {/* switch out the buttons based on the lifecycle of the quiz - we don't want to submit again.*/}
             {result ? (
@@ -78,7 +80,7 @@ export const Quiz: FC<IQuizPropTypes> = (
                     type="button"
                     variant="contained"
                     color="primary"
-                    onClick={() => submitAnswer()}
+                    onClick={submitAnswer}
                     disabled={!selectedCapital}
                     loading={loading}
                 >Submit</Button>
