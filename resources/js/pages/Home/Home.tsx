@@ -2,10 +2,11 @@ import React, { FC, useState } from 'react';
 import { Header } from '@/components/Header/Header';
 
 import styles from './Home.module.css';
-import { getQuizDataRequest, IQuizData, IQuizResult, postQuizAnswer } from '@/apiConsumers/countriesQuiz';
+import { getQuizDataRequest, postQuizAnswer } from '@/apiConsumers/countriesQuiz';
 import { Welcome } from '@/components/Welcome/Welcome';
 import { Quiz } from '@/components/Quiz/Quiz';
 import { Typography } from '@mui/material';
+import { IQuizData, IQuizResult } from '@/types/quiz';
 
 export const Home: FC = () => {
     const [quizData, setQuizData] = useState<IQuizData | null>(null);
@@ -13,8 +14,9 @@ export const Home: FC = () => {
     const [selectedCapital, setSelectedCapital] = useState<string | null>(null);
     const [result, setResult] = useState<IQuizResult | null>(null);
     const [streakCount, setStreakCount] = useState<number>(0);
-    const { country } = quizData ?? {};
     const [apiError, setApiError] = useState(false);
+
+    const { country } = quizData ?? {};
 
     const handleFetchQuizData = async () => {
         setLoading(true);

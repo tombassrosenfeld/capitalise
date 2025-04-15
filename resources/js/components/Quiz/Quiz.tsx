@@ -3,6 +3,7 @@ import { type IQuizPropTypes } from '@/components/Quiz/Quiz.types';
 import { Button, FormControlLabel, Radio, RadioGroup } from '@mui/material';
 
 import styles from './Quiz.module.css';
+import { type TCity } from '@/types/quiz';
 
 export const Quiz: FC<IQuizPropTypes> = (
     {
@@ -40,7 +41,7 @@ export const Quiz: FC<IQuizPropTypes> = (
                 onChange={(_, value) => setSelectedCapital(value)}
             >
                 {
-                    cities && cities.map((city, index) => (
+                    cities && cities.map((city: TCity, index: number) => (
                         <FormControlLabel
                             // This key composition catches the case that we end up with multiple
                             // empty cities and prevents key duplication.

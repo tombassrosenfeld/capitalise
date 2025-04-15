@@ -1,5 +1,5 @@
-import { type IQuizData, IQuizResult, type TCity } from '@/apiConsumers/countriesQuiz';
 import { Dispatch, type SetStateAction } from 'react';
+import { IQuizData, IQuizResult, TCity } from '@/types/quiz';
 
 export interface IQuizPropTypes {
     quizData: IQuizData;

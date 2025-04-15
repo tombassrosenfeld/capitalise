@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { IQuizData, IQuizResult } from '@/types/quiz';
+import { IQuizAnswer, IQuizData, IQuizResult } from '@/types/quiz';
 
 interface IQuizDataResponse {
     data: IQuizData | null;
