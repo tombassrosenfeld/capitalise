@@ -6,7 +6,7 @@ Welcome to capitalise.
 
 Clone this repo, navigate to the root of the project and run `npm install && npm run build`. 
 
-This project uses Laravel sail so run `php artisan sail:install` and `./vendor/bin/sail up` (see the alias below if you'd like to be able to use `sail`). 
+This project uses Laravel sail so run `php artisan sail:install` and `./vendor/bin/sail up -d` (see the alias below if you'd like to be able to use `sail`). 
 Run `sail npm run dev` and the app will be served at `localhost`.
 
 Optionally, if you don't have an alias for sail, you can add the following to your aliases:
