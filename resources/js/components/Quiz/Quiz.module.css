@@ -1,0 +1,28 @@
+
+.messageWrapper {
+    min-height: 2rem;
+    margin: 0.5rem 0;
+}
+
+.radioGroup {
+    width: fit-content;
+}
+
+.label {
+    padding-right: 1rem;
+    /*width: fit-content;*/
+    overflow: visible;
+}
+
+.radio {
+}
+
+.correctRadio {
+    background-color: green;
+    color: white;
+}
+
+.incorrectRadio {
+    background-color: red;
+    color: white;
+}
